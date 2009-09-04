@@ -301,6 +301,12 @@
 ;;
 ;; CHANGES:
 ;;
+;; 24 August 2009
+;;
+;; Added a variable, `comics-show-title', which if non-nil will cause the
+;; comic title and author to appear in the comic buffer.  By default it
+;; is nil.
+;;
 ;; 20 August 2009
 ;;
 ;; Added "Girl Genius"
@@ -582,12 +588,7 @@ If nil, then today's date will the date where you are."
   :type 'boolean)
 
 (defcustom comics-show-titles nil
-  "If nil do not display the text titles in the buffer"
-  :group 'comics
-  :type 'boolean)
-
-(defcustom comics-show-links nil
-  "If nil do not link back to the original"
+  "If non-nil display the text titles in the buffer"
   :group 'comics
   :type 'boolean)
 
@@ -2760,15 +2761,17 @@ If DAY is non-nil display the comic from DAY days previous."
    (list (comics-completing-read "Comic: " comics-list)
 	 current-prefix-arg))
   (setq comics-latest-url nil)
-  (let ((date)
-        (comic-date)
-        (datesend)
-        (comic-file)
-        (comic)
-        (comic-author)
-        (comic-file-name-with-path)
-        (comic-buffer-name)
-        (resize-on-open))
+  (let* ((date)
+         (comic-date)
+         (datesend)
+         (comic-file)
+;        (comic)
+;        (comic-author)
+         (comic (assoc comic-name comics-list))
+         (comic-author (nth 1 comic))
+         (comic-file-name-with-path)
+         (comic-buffer-name)
+         (resize-on-open))
     (let* ((clist (assoc comic-name comics-favorites-list))
            (rsz (nth 2 clist)))
       (setq resize-on-open
@@ -2800,7 +2803,7 @@ If DAY is non-nil display the comic from DAY days previous."
                   (comics-month-name date) " "
                   (comics-day date)))
     (setq comic-buffer-name 
-          (concat "*" comic-name "  " comic-date "*"))
+          (concat "*" comic-name " by " comic-author ", " comic-date "*"))
     ;; If the buffer exists, just go there
     (cond
      ((and
@@ -2817,33 +2820,30 @@ If DAY is non-nil display the comic from DAY days previous."
             (comics-view-comic-with-external-viewer
              comic-file-name-with-path)
             (comics-favorites-add-date comic-name date))
-        (setq comic (assoc comic-name comics-list))
-        (setq comic-author (nth 1 comic))
+;        (setq comic (assoc comic-name comics-list))
+;        (setq comic-author (nth 1 comic))
         (switch-to-buffer comic-buffer-name)
         (add-to-list 'comics-buffer-list comic-buffer-name)
-	(if comics-show-titles 
-	    (progn
-	      (insert comic-name)
-	      (comics-facify-line 'comics-name-face)
-	      (if (string= comic-author "")
-		  (insert "\n")
-		(insert "\n" "by " comic-author "\n"))
-	      (insert comic-date)
-	      (comics-facify-line 'comics-date-face)
-	  (insert "\n\n")
-	  ))
-	(unless resize-on-open
-	  (insert-image-file comic-file-name-with-path))
-;           (insert-image 
+        (if comics-show-titles
+            (progn
+              (insert comic-name)
+              (comics-facify-line 'comics-name-face)
+              (if (string= comic-author "")
+                  (insert "\n")
+                (insert "\n" "by " comic-author "\n"))
+              (insert comic-date)
+              (comics-facify-line 'comics-date-face)
+              (insert "\n\n")))
+        (unless resize-on-open
+          (insert-image-file comic-file-name-with-path))
+;          (insert-image 
 ;           (create-image comic-file-name-with-path nil nil
 ;                         :ascent 99
 ;                         :relief 10)))
-	(if comics-show-titles
-	    (progn 
-	      (goto-char (point-max))
-	      (insert "\n")
-	      )
-	  )
+        (if comics-show-titles
+            (progn
+              (goto-char (point-max))
+              (insert "\n")))
         (comics-buffer-mode)
         (goto-char (point-min))
         (setq comics-buffer-this-comic comic-file-name-with-path)
@@ -3330,7 +3330,7 @@ With an argument, prompt for a name, otherwise the default bookmark."
             (max 1 (- (window-height)
                       (if mode-line-format 1 0)
                       (if header-line-format 1 0)
-                      4)))))
+                      (if comics-show-titles 4 0))))))
     (message (concat "Unable to find executable program: "
                      comics-convert-program))))
 
