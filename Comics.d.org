@@ -1,0 +1,27 @@
+* Additional Features
+** Add ability to handle comics published on a schedule 
+Add defcustom or hooks to make it possible to add an alist for (2 4 6)  and (sSmtwTf) or some other weird syntax for comics that don't come out every day to override the prev/next function. Or create comics-use-date-mwf? (side effects?)
+This applies to many comics I read, notably xkcd and Girl Genius.
+** "Catch up batch" Download fav comics from an emacs batch -
+Jay: "That should be doable now with `comics-fetch-unread-favorites'."
+** Always date original according to the date it was published
+Jay: "Probably the best way to do that would be to look for today's comic
+("20090820" for example) and the keep searching backward until a comic is found.  Something like `comics-buffer-view-previous-comic-skip-misses', except starting from scratch rather than a specific date."
+** TODO comics-kill-comics-buffers-and-look-busy w/keybinding
+M-K? oh-god-the-boss-is-coming-put-up-twisted-c++-code
+** TODO make my windows-cycler skip comics buffers
+** TODO Hook to put all author/title text on window titlebar rather than in the buffer itself when selected
+Jay: " The title and date (but not the author) are in the modeline.  Putting
+the author in the modeline and leaving the information out of the buffer
+would be simple; I don't know anything about adding the information to
+the title, but I can't imagine it'd be too much more difficult."
+** TODO Add checker to see if various comics still work
+Jay: "comics-read-comic' returns nil if the comic is inaccessible, but I don't know how helpful that would be."
+** TODO comics-resize-frame-to-comic
+** TODO comics-favorites-build-daily-page
+The end game of all this effort would be the ability to fetch all your favorite comics and display them in one page in emacs.
+* Org Stuff
+** Add default tags to this org file :FIXME:
+Add play tag and coding tags automatically
+Fix the todo cycler to do the right thing
+add estimates for time and timestamps
