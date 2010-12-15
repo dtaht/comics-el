@@ -301,15 +301,24 @@
 ;;
 ;; CHANGES:
 ;;
+;; 3 April 2010
+;;
+;; Fix `run-hooks' problem.
+;; (Patch by Wesley Dawson.)
+;;
+;; 17 January 2010
+;; 
+;; Fixed problem retrieving comics.com comics.
+;;
 ;; 24 August 2009
 ;;
 ;; Added a variable, `comics-show-title', which if non-nil will cause the
 ;; comic title and author to appear in the comic buffer.  By default it
-;; is nil.
+;; is nil. (Patch by Dave Täht)
 ;;
 ;; 20 August 2009
 ;;
-;; Added "Girl Genius"
+;; Added "Girl Genius"  (Thanks to Dave Täht)
 ;;
 ;; 23 Feb 2009
 ;;
@@ -2142,7 +2151,7 @@ DATE1 and DATE2 should be date-time strings."
      (concat 
       "http://comics.com/" 
       name "/" (comics-year dt) "-" (comics-month dt) "-" (comics-day dt))
-     "src=\"\\(http://assets.comics.com/.*full.\\(gif\\|jpg\\)\\)\""
+     "src=\"\\(http://.*.cloudfiles.rackspacecloud.com/dyn/str_strip/.*.full.\\(gif\\|jpg\\)\\)\""
      1
      "")))  ;; Remove dir
   
@@ -4454,7 +4463,7 @@ Misc:
   (setq buffer-read-only t)
 ;  (add-hook 'kill-buffer-hook
 ;            'comics-write-favorites-file)
-  (run-hooks comics-buffer-hook))
+  (run-hooks 'comics-buffer-hook))
 
 ;;; Now, setting things up
 (defvar comics-list-current-line-overlay nil)
@@ -4723,7 +4732,7 @@ addition to the above commands):
   (setq major-mode 'comics-list-comics-mode)
 ;  (add-hook 'kill-buffer-hook
 ;            'comics-write-favorites-file)
-  (run-hooks comics-list-comics-hook))
+  (run-hooks 'comics-list-comics-hook))
 
 (defun comics-list-comics ()
   "Create a buffer to interactively display comics."
@@ -5164,7 +5173,7 @@ addition to the above commands):
   (setq major-mode 'comics-favorites-list-comics-mode)
 ;  (add-hook 'kill-buffer-hook
 ;            'comics-write-favorites-file)
-  (run-hooks comics-favorites-list-comics-hook))
+  (run-hooks 'comics-favorites-list-comics-hook))
 
 
 (defun comics-favorites-list-comics ()
