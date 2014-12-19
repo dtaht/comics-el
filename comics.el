@@ -2367,16 +2367,13 @@ DATE1 and DATE2 should be date-time strings."
              (comics-use-date 
               date
               (comics-get-timezone-from-function 'comics-get-girl-genius))))
-        (comics-get-file-at-url-inside-another-url
-         (concat "http://www.girlgeniusonline.com/comic.php?date=" dt)
-         "http://www.girlgeniusonline.com/ggmain/strips/ggmain.*?.jpg"
-         0
+        (comics-get-file-at-url
+         (concat "http://www.girlgeniusonline.com/ggmain/strips/ggmain" dt ".jpg")
          nil))
-    (comics-get-file-at-url-inside-another-url
-     "http://www.girlgeniusonline.com/comic.php"
-     "http://www.girlgeniusonline.com/ggmain/strips/ggmain.*?.jpg"
-     0
-     nil)))
+     (comics-get-file-at-url
+     (concat "http://www.girlgeniusonline.com/ggmain/strips/ggmain"
+	     (comics-today) ".jpg"
+	     ))))
 
 ;    (let ((misses 0)
 ;          (misses-allowed 5)
