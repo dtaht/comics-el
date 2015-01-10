@@ -1299,7 +1299,7 @@ It is expected to behave like `wget'.")
      comics-get-comics-dot-com "peanuts" "comics")
     ("Pearls Before Swine" "Stephan Pastis"
      "Pearls_Before_Swine"
-     comics-get-comics-dot-com "pearls" "comics")
+     comics-get-ucomics-dot-com "pb" "gif")
     ("The Petstore" "Drew Trevlyn"
      "Petstore"
      comics-get-comicssherpa-dot-com-latest "cstde")
