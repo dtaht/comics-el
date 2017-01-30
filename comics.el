@@ -2165,9 +2165,8 @@ DATE1 and DATE2 should be date-time strings."
      (concat 
       "http://dilbert.com/" 
       (comics-year dt) "-" (comics-month dt) "-" (comics-day dt))
-     "value=\"\\(/dyn/str_strip/.*strip.print.\\(gif\\|jpg\\)\\)\""
-     1
-     "http://dilbert.com")))
+     "src=\"\\(http://assets.amuniversal.com/.*?\\)\""
+     1)))
   
 ;; (defun comics-get-comics-dot-com-latest (name dir &optional date)
 ;;   "Get the latest comic NAME from www.comics.com."
